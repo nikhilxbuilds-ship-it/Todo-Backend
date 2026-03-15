@@ -189,6 +189,24 @@ app.delete("/todos/:id", verifyToken, (req, res) => {
   console.log(todos);
 });
 
+app.patch("/todos/:id/completed", verifyToken, (req, res) => {
+    const idToChange = parseInt(req.params.id);
+    const findTodo = todos.find(t => t.id === idToChange);
+
+    if(!findTodo){
+        return res.status(404).json({
+            message : "Todo is not available on given id"
+        })
+    }
+
+    findTodo.completed = true;
+
+    res.status(201).json({
+        message : "Todo marked as completed",
+        findTodo
+    })
+})
+
 app.listen(3000, ()=> {
     console.log("Listing at port 3000");
 });
